@@ -1,0 +1,37 @@
+[INFO] (utils) Arguments:
+[INFO] (utils)   batch_size: 64
+[INFO] (utils)   command: train.py -d ../data/SemEval_task5/df_train.csv --trial ../data/SemEval_task5/df_test.csv -s ../data/sentiment_datasets/train_E6oV3lV.csv --word_list ../data/word_list/word_all.txt --emb ../glove.840B.300d.txt -o output_dir -b 64 --epochs 10 --lr 0.005 --maxlen 50 -t SWEM1
+[INFO] (utils)   data_path: ../data/SemEval_task5/df_train.csv
+[INFO] (utils)   dropout_prob: 0.1
+[INFO] (utils)   emb_dim: 300
+[INFO] (utils)   emb_path: ../glove.840B.300d.txt
+[INFO] (utils)   epochs: 10
+[INFO] (utils)   humor_data_path: None
+[INFO] (utils)   learn_rate: 0.005
+[INFO] (utils)   loss: ce
+[INFO] (utils)   maxlen: 50
+[INFO] (utils)   model_type: SWEM1
+[INFO] (utils)   non_gate: False
+[INFO] (utils)   out_dir_path: output_dir
+[INFO] (utils)   sarcasm_data_path: None
+[INFO] (utils)   sentiment_data_path: ../data/sentiment_datasets/train_E6oV3lV.csv
+[INFO] (utils)   trial_data_path: ../data/SemEval_task5/df_test.csv
+[INFO] (utils)   vocab_path: None
+[INFO] (utils)   word_list_path: ../data/word_list/word_all.txt
+[INFO] (utils)   word_norm: 1
+[INFO] (data_reader) Creating vocabulary.........
+[INFO] (data_reader)   241151 total words, 24674 unique words
+[INFO] (data_reader)   Vocab size: 24674
+[INFO] (data_reader) <unk> hit rate: 0.00%
+[INFO] (data_reader) <unk> hit rate: 0.01%
+[INFO] (__main__) Statistics:
+[INFO] (__main__)   train_x shape: (9000, 50)
+[INFO] (__main__)   test_x shape:  (2805, 50)
+[INFO] (__main__)   train_chars shape: (9000, 300)
+[INFO] (__main__)   test_chars shape:  (2805, 300)
+[INFO] (__main__)   train_y shape: (9000, 2)
+[INFO] (__main__)   test_y shape:  (2805, 2)
+[INFO] (models) Building a SWEM
+[INFO] (models)   Done
+[INFO] (__main__) --------------------------------------------------------------------------------------------------------------------------
+[INFO] (__main__) Initial Evaluation:
