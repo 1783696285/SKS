@@ -57,8 +57,7 @@ U.mkdir_p(out_dir + '/preds')
 U.set_logger(out_dir=out_dir, model_type = args.model_type)
 U.print_args(args)
 
-assert args.model_type in {'SWEM1', 'bregp','FNN', 'SWEM_upgrade', 'CNN', 'charCNN_SWEM', 'HHMM', 'HHMM_transformer', 'HHMM_word_char', 'HHMM_word_char1'}
-# assert args.algorithm in {'rmsprop', 'sgd', 'adagrad', 'adadelta', 'adam', 'adamax'}
+
 assert args.loss in {'mse', 'ce'}
 
 # if args.seed > 0:
@@ -75,8 +74,6 @@ import data_reader as dataset
 ## Prepare data
 #
 
-from keras.preprocessing import sequence
-import pandas as pd
 
 train_x, test_x, train_y, test_y, train_chars, test_chars, task_idx_train, task_idx_test, ruling_embedding_train, ruling_embedding_test,\
     category_embedding_train, category_embedding_test, vocab = dataset.get_data(args)
@@ -111,7 +108,6 @@ logger.info('  train_y shape: ' + str(train_y.shape))
 # logger.info('  dev_y shape:   ' + str(dev_y.shape))
 logger.info('  test_y shape:  ' + str(test_y.shape))
 
-# logger.info('  train_y mean: %s, stdev: %s, MFC: %s' % (str(train_mean), str(train_std), str(mfs_list)))
 
 
 ###############################################################################################################################
