@@ -80,7 +80,7 @@ def create_vocab(tweets, vocab_size=0):
         for word, freq in sorted_word_freqs:
             if freq >= 1:
                 vocab_size += 1
-    vocab = {'<pad>': 0, '<unk>': 1, '<word>': 2, '<no_word>': 3}
+    vocab = {'<pad>': 0, '<unk>': 1, '<word>': 2, '<no_word>': 3}   # The number 2 means that it contains dirty words, 3 means don't contain.
     vcb_len = len(vocab)
     index = vcb_len
     for word, _ in sorted_word_freqs[:vocab_size - vcb_len]:
@@ -144,13 +144,13 @@ def get_indices(tweets, vocab, word_list_path):
             total += 1
 
         if t:
-            ruling = [2]*50
+            ruling = [2]*50   
         else:
             ruling = [3]*50
-        ruling_embedding.append(ruling)
+        ruling_embedding.append(ruling)    # It corresponds to category embedding in the paper
         data_x.append(indices)
         char_x.append(indices_char)
-        category_embedding.append(category_indeics)
+        category_embedding.append(category_indeics)   # It's just a category of words, it don't use now.
     logger.info('<unk> hit rate: %.2f%%' % (100 * unk_hit / total))
     return data_x, char_x, ruling_embedding, category_embedding
 

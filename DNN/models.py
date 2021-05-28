@@ -60,7 +60,7 @@ def create_model(args, overal_maxlen, ruling_dim, vocab, num_class):
 	
 
 
-	elif args.model_type == 'SWEM':
+	elif args.model_type == 'Trm':
 		logger.info("Building a Simple Word Embedding Model")
 		from keras.layers import Input, Dense, concatenate, GlobalMaxPooling1D, GlobalAveragePooling1D, Add
 		input = Input(shape=(overal_maxlen,), dtype='int32')
