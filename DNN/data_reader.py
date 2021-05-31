@@ -117,15 +117,22 @@ def get_indices(tweets, vocab, word_list_path):
         # tweet = tweets[i]
         # print(tweet)
         content = tokenize(tweet)
+        n = len(content)
         t = False
         indices = []
         category_indeics = []  # 脏词为0，错词为1，其他为2
         for word in content:
+        for j in range(n):
             # if is_number(word):
             #     indices.append(vocab['<num>'])
             #     num_hit += 1
-            
-            if word in word_list:
+            word = content[j]
+            if j < n-1:
+                word_2 = ' '.join(content[j:j+2])
+            if j < n-2:
+                word_3 = ' '.join(content[j:j+3])
+                
+            if word in word_list or word_2 in word_list or word_3 in word_list:  # 3-gram
                 t = True
 
             if word in vocab:
