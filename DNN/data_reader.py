@@ -328,6 +328,13 @@ def read_dataset(args, vocab_path, MAX_SEQUENCE_LENGTH):
         np.array(ruling_embedding_test, dtype=np.float), category_embedding_train, category_embedding_test, vocab
 
 
+def get_data(args):
+    data_path = args.data_path
+    X_train_data, X_test_data, y_train, y_test, train_chars, test_chars, task_idx_train, task_idx_test, train_ruling_embedding, test_ruling_embedding, category_embedding_train, category_embedding_test, vocab = \
+        read_dataset(data_path, args.vocab_path args.maxlen)
+    return X_train_data, X_test_data, y_train, y_test, train_chars, test_chars, task_idx_train, task_idx_test, train_ruling_embedding, test_ruling_embedding,\
+            category_embedding_train, category_embedding_test, vocab
+
 
 def hate_word_statistics(tweet_file_path, hate_word_file_path):
     from nltk.stem import WordNetLemmatizer
