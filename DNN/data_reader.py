@@ -242,7 +242,8 @@ def read_dataset(args, vocab_path, MAX_SEQUENCE_LENGTH):
     df_task_test = pd.read_csv(args.trial_data_path, encoding="utf-8")
 
     df_task['task_idx'] = [0]*len(df_task)
-    # df_task['label'] = df_task['class']  # 两个数据集的区别
+    if args.data_path.split('/')[-1]!='df_train.csv':  # the 'df_train.csv' means SE datasets.
+        # df_task['label'] = df_task['class']  
     df_task_test['task_idx'] = [0]*len(df_task_test)
 
     data_all = df_task[['tweet', 'label', 'task_idx']]
