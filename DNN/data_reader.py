@@ -102,7 +102,7 @@ def get_indices(tweets, vocab, word_list_path):
     import enchant
     d = enchant.Dict('en-US')
 
-    with open(word_list_path, 'r') as f:  # 得到词表
+    with open(word_list_path, 'r', encoding='utf-8') as f:  # 得到词表
         word_list = f.read().split('\n')
     word_list = [s.lower() for s in word_list]
 
@@ -121,7 +121,7 @@ def get_indices(tweets, vocab, word_list_path):
         t = False
         indices = []
         category_indeics = []  # 脏词为0，错词为1，其他为2
-        for word in content:
+        # for word in content:
         for j in range(n):
             # if is_number(word):
             #     indices.append(vocab['<num>'])
@@ -131,7 +131,7 @@ def get_indices(tweets, vocab, word_list_path):
                 word_2 = ' '.join(content[j:j+2])
             if j < n-2:
                 word_3 = ' '.join(content[j:j+3])
-                
+
             if word in word_list or word_2 in word_list or word_3 in word_list:  # 3-gram
                 t = True
 
@@ -151,7 +151,7 @@ def get_indices(tweets, vocab, word_list_path):
             total += 1
 
         if t:
-            ruling = [2]*50   
+            ruling = [2]*50
         else:
             ruling = [3]*50
         ruling_embedding.append(ruling)    # It corresponds to category embedding in the paper
@@ -243,7 +243,7 @@ def read_dataset(args, vocab_path, MAX_SEQUENCE_LENGTH):
 
     df_task['task_idx'] = [0]*len(df_task)
     if args.data_path.split('/')[-1]!='df_train.csv':  # the 'df_train.csv' means SE datasets.
-        # df_task['label'] = df_task['class']  
+        df_task['label'] = df_task['class']  # 两个数据集的区别
     df_task_test['task_idx'] = [0]*len(df_task_test)
 
     data_all = df_task[['tweet', 'label', 'task_idx']]
@@ -268,21 +268,21 @@ def read_dataset(args, vocab_path, MAX_SEQUENCE_LENGTH):
         data_all = pd.concat([data_all, df_sentiment_train[['tweet', 'label', 'task_idx']]], ignore_index=True)
     print("test_task size>>>", len(df_task_test))
 
-    if args.humor_data_path:
-        df_humor = pd.read_csv(args.humor_data_path)
-        df_humor['task_idx'] = [2]*len(df_humor)
-        df_humor['sequences_char_unorganized'] = df_humor.tweet.apply(lambda x : strToIndexs(x,alphabet_dict))
-        df_humor_train, df_humor_test = df_humor.iloc[:int(0.6*len(df_humor)), :], df_humor.iloc[int(0.9*len(df_humor)):, :]
-        df_task_test = df_task_test.append(df_humor_test[['sequences_char_unorganized', 'label', 'task_idx']])
-        data_all = data_all.append(df_humor_train[['sequences_char_unorganized', 'label', 'task_idx']])
-    
-    if args.sarcasm_data_path:
-        df_sarcasm = pd.read_csv(args.sarcasm_data_path)
-        df_sarcasm['task_idx'] = [3]*len(df_sarcasm)
-        df_sarcasm['sequences_char_unorganized'] = df_sarcasm.tweet.apply(lambda x : strToIndexs(x,alphabet_dict))
-        df_sarcasm_train, df_sarcasm_test = df_sarcasm.iloc[:int(0.9*len(df_sarcasm)), :], df_sarcasm.iloc[int(0.9*len(df_sarcasm)):, :]
-        df_task_test = df_task_test.append(df_sarcasm_test[['sequences_char_unorganized', 'label', 'task_idx']])
-        data_all = data_all.append(df_sarcasm_train[['sequences_char_unorganized', 'label', 'task_idx']])
+    # if args.humor_data_path:
+    #     df_humor = pd.read_csv(args.humor_data_path)
+    #     df_humor['task_idx'] = [2]*len(df_humor)
+    #     df_humor['sequences_char_unorganized'] = df_humor.tweet.apply(lambda x : strToIndexs(x,alphabet_dict))
+    #     df_humor_train, df_humor_test = df_humor.iloc[:int(0.6*len(df_humor)), :], df_humor.iloc[int(0.9*len(df_humor)):, :]
+    #     df_task_test = df_task_test.append(df_humor_test[['sequences_char_unorganized', 'label', 'task_idx']])
+    #     data_all = data_all.append(df_humor_train[['sequences_char_unorganized', 'label', 'task_idx']])
+    #
+    # if args.sarcasm_data_path:
+    #     df_sarcasm = pd.read_csv(args.sarcasm_data_path)
+    #     df_sarcasm['task_idx'] = [3]*len(df_sarcasm)
+    #     df_sarcasm['sequences_char_unorganized'] = df_sarcasm.tweet.apply(lambda x : strToIndexs(x,alphabet_dict))
+    #     df_sarcasm_train, df_sarcasm_test = df_sarcasm.iloc[:int(0.9*len(df_sarcasm)), :], df_sarcasm.iloc[int(0.9*len(df_sarcasm)):, :]
+    #     df_task_test = df_task_test.append(df_sarcasm_test[['sequences_char_unorganized', 'label', 'task_idx']])
+    #     data_all = data_all.append(df_sarcasm_train[['sequences_char_unorganized', 'label', 'task_idx']])
     # print('raw_data.tweet', len(raw_data.tweet))
    
     data_all.sample(frac=1)  # shuffle data
@@ -330,9 +330,9 @@ def read_dataset(args, vocab_path, MAX_SEQUENCE_LENGTH):
 
 
 def get_data(args):
-    data_path = args.data_path
+    # data_path = args.data_path
     X_train_data, X_test_data, y_train, y_test, train_chars, test_chars, task_idx_train, task_idx_test, train_ruling_embedding, test_ruling_embedding, category_embedding_train, category_embedding_test, vocab = \
-        read_dataset(data_path, args.vocab_path args.maxlen)
+        read_dataset(args, args.vocab_path, args.maxlen)
     return X_train_data, X_test_data, y_train, y_test, train_chars, test_chars, task_idx_train, task_idx_test, train_ruling_embedding, test_ruling_embedding,\
             category_embedding_train, category_embedding_test, vocab
 

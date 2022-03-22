@@ -49,7 +49,7 @@ def create_model(args, overal_maxlen, ruling_dim, vocab, num_class):
 		expert_outputs = HSMMBottom(args.model_type, args.non_gate, expert_units=[150, 150], gate_unit=150, task_num=task_num)(emb_output)
 		# out = HSMMTower(units=[50,2])(expert_outputs)
 		for i in range(task_num):
-		    tower_outputs.append(HSMMTower(units=[50, 2])(expert_outputs[:,i,:]))
+			tower_outputs.append(HSMMTower(units=[50, 2])(expert_outputs[:,i,:]))
 		out = tf.matmul(tf.stack(tower_outputs,axis=-1),tf.expand_dims(taskid_input,-1))  ## 交替训练
 		pred = tf.squeeze(out, axis=-1)
 		# pred = tf.nn.softmax(out,axis=-1)
@@ -67,8 +67,8 @@ def create_model(args, overal_maxlen, ruling_dim, vocab, num_class):
 		# input2 = Input(shape=(dim_ruling,300), dtype='float32')
 		emb_output = Embedding(len(vocab), args.emb_dim, name='emb')(input)
 		# mlp_output = Self_Attention(300)(emb_output)
-        mlp_output = MultiHeadAttention(300)(emb_output)
-        mlp_output = Dense(300, activation='relu')(mlp_output)
+		mlp_output = MultiHeadAttention(300)(emb_output)
+		mlp_output = Dense(300, activation='relu')(mlp_output)
 		# mlp_output = Dropout(0.2)(mlp_output)
 		avg = GlobalAveragePooling1D()(mlp_output)
 		max1 = GlobalMaxPooling1D()(mlp_output)
@@ -79,7 +79,7 @@ def create_model(args, overal_maxlen, ruling_dim, vocab, num_class):
 		output = Dense(num_class, activation='softmax')(dropout)
 		model = Model(inputs=input, outputs=output)
 		model.emb_index = 1
-        model.summary()
+		model.summary()
 
 
 
